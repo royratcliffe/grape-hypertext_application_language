@@ -62,7 +62,6 @@ PLATFORMS
   java
 
 DEPENDENCIES
-  bundler
   grape-hypertext_application_language!
 
 BUNDLED WITH
