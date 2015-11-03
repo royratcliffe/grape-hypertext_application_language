@@ -16,10 +16,16 @@ module Grape::Formatter::Hal
     # relative, i.e. the reference does not include a scheme. Applies this
     # adjustment to the representation itself as well as all the embedded
     # representations if any.
+    #
+    # Automatically converts the body to a hypertext-application-language
+    # representation unless the body is already such a HAL
+    # representation. Passes the Rack environment to the HAL
+    # converter. Converters can use the environment to extract addressing
+    # information for the representation's links, including the self link.
     def self.call(body, env)
       unless body.is_a?(HypertextApplicationLanguage::Representation)
         return body unless body.respond_to?(:to_hal)
-        body = body.to_hal
+        body = body.to_hal(env: env)
       end
 
       endpoint = env['api.endpoint']
