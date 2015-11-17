@@ -31,7 +31,7 @@ module Grape::Formatter::Hal
     # and uses the path, less its leading slash, as the relation.
     def self.call(body, env)
       unless body.is_a?(HypertextApplicationLanguage::Representation)
-        if body.respond_to?(:first) && body.first.respond_to?(:to_hal)
+        if body.respond_to?(:first)
           representation = HypertextApplicationLanguage::Representation.new
 
           rel = env['PATH_INFO'][1..-1]
@@ -39,6 +39,7 @@ module Grape::Formatter::Hal
           representation.with_link(HypertextApplicationLanguage::Link::SELF_REL, href)
 
           body.each do |resource|
+            continue unless resource.respond_to?(:to_hal)
             resource_representation = resource.to_hal(env: env)
             representation.with_link(rel, resource_representation.link.href)
             representation.with_representation(rel, resource_representation)

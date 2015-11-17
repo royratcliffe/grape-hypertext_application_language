@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name = 'grape-hypertext_application_language'
-  spec.version = '0.1.0'
+  spec.version = '0.1.1'
   spec.summary = %q{Grape extensions for Hypertext Application Language}
   spec.description = %q{}
   spec.homepage = 'http://stateless.co/hal_specification.html'

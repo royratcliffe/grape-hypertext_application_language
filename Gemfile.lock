@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    grape-hypertext_application_language (0.1.0)
+    grape-hypertext_application_language (0.1.1)
       addressable
       grape
       hypertext_application_language
