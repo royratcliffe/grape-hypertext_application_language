@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    grape-hypertext_application_language (0.0.0)
+    grape-hypertext_application_language (0.1.0)
       addressable
       grape
       hypertext_application_language
@@ -9,7 +9,7 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (4.2.4)
+    activesupport (4.2.5)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
@@ -61,6 +61,7 @@ GEM
 
 PLATFORMS
   java
+  ruby
 
 DEPENDENCIES
   bundler

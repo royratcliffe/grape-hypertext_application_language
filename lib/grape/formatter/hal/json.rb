@@ -22,10 +22,33 @@ module Grape::Formatter::Hal
     # representation. Passes the Rack environment to the HAL
     # converter. Converters can use the environment to extract addressing
     # information for the representation's links, including the self link.
+    #
+    # Handles arrays of objects if, and only if, the elements themselves respond
+    # to +to_hal+. In such cases, it replaces the array body with a HAL
+    # representation conforming to a HAL collection where the collection
+    # representation includes links to the elements in the collection as well as
+    # embedding the nested resources. Uses the request path for the self link;
+    # and uses the path, less its leading slash, as the relation.
     def self.call(body, env)
       unless body.is_a?(HypertextApplicationLanguage::Representation)
-        return body unless body.respond_to?(:to_hal)
-        body = body.to_hal(env: env)
+        if body.respond_to?(:first) && body.first.respond_to?(:to_hal)
+          representation = HypertextApplicationLanguage::Representation.new
+
+          rel = env['PATH_INFO'][1..-1]
+          href = env['REQUEST_PATH']
+          representation.with_link(HypertextApplicationLanguage::Link::SELF_REL, href)
+
+          body.each do |resource|
+            resource_representation = resource.to_hal(env: env)
+            representation.with_link(rel, resource_representation.link.href)
+            representation.with_representation(rel, resource_representation)
+          end
+
+          body = representation
+        else
+          return body unless body.respond_to?(:to_hal)
+          body = body.to_hal(env: env)
+        end
       end
 
       endpoint = env['api.endpoint']
