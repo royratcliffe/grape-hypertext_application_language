@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    grape-hypertext_application_language (0.1.1)
+    grape-hypertext_application_language (0.1.2)
       addressable
       grape
       hypertext_application_language
@@ -42,7 +42,7 @@ GEM
     ice_nine (0.11.1)
     json (1.8.3)
     json (1.8.3-java)
-    minitest (5.8.2)
+    minitest (5.8.3)
     multi_json (1.11.2)
     multi_xml (0.5.5)
     rack (1.6.4)

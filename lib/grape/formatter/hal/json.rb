@@ -28,16 +28,18 @@ module Grape::Formatter::Hal
     # representation conforming to a HAL collection where the collection
     # representation includes links to the elements in the collection as well as
     # embedding the nested resources. Uses the request path for the self link;
-    # and uses the path, less its leading slash, as the relation.
+    # and uses the last element of the path as the relation. Uses duck typing to
+    # determine if the body is an array or not. If the body responds to +each+
+    # then it assumes that the response is some kind of enumeration.
     def self.call(body, env)
       unless body.is_a?(HypertextApplicationLanguage::Representation)
-        if body.respond_to?(:first)
+        if body.respond_to?(:each)
           representation = HypertextApplicationLanguage::Representation.new
 
-          rel = env['PATH_INFO'][1..-1]
           href = env['REQUEST_PATH']
           representation.with_link(HypertextApplicationLanguage::Link::SELF_REL, href)
 
+          rel = env['PATH_INFO'].split('/').last
           body.each do |resource|
             continue unless resource.respond_to?(:to_hal)
             resource_representation = resource.to_hal(env: env)
