@@ -1,1 +1,6 @@
+# Ignore everything beneath the +pkg+ folder. The Bundler +build+ task places
+# +*.gem+ packages in this folder.
 pkg
+
+# Ignore the hidden folder where Yard builds documentation.
+.yardoc
