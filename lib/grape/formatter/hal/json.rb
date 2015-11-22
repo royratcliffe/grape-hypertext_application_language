@@ -39,7 +39,7 @@ module Grape::Formatter::Hal
           href = env['REQUEST_PATH']
           representation.with_link(HypertextApplicationLanguage::Link::SELF_REL, href)
 
-          rel = env['PATH_INFO'].split('/').reject(&:empty?).join('_')
+          rel = env['PATH_INFO'].split('/').last
           body.each do |resource|
             continue unless resource.respond_to?(:to_hal)
             resource_representation = resource.to_hal(env: env)
