@@ -47,6 +47,9 @@ module Grape::Formatter::Hal
             representation.with_representation(rel, resource_representation)
           end
 
+          properties = env['hypertext_application_language.collection.properties']
+          representation.properties = properties if properties
+
           body = representation
         else
           return body unless body.respond_to?(:to_hal)
