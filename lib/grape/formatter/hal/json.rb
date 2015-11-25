@@ -41,11 +41,14 @@ module Grape::Formatter::Hal
 
           rel = env['PATH_INFO'].split('/').last
           body.each do |resource|
-            continue unless resource.respond_to?(:to_hal)
+            next unless resource.respond_to?(:to_hal)
             resource_representation = resource.to_hal(env: env)
             representation.with_link(rel, resource_representation.link.href)
             representation.with_representation(rel, resource_representation)
           end
+
+          properties = env['hypertext_application_language.collection.properties']
+          representation.properties = properties if properties
 
           body = representation
         else
